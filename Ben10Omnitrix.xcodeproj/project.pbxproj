@@ -144,7 +144,7 @@
 		100000000000000000000072 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				PRODUCT_BUNDLE_IDENTIFIER = com.example.Ben10Omnitrix;
+				PRODUCT_BUNDLE_IDENTIFIER = com.example.Ben10Omnitrix.watchkitapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -152,7 +152,7 @@
 		100000000000000000000073 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				PRODUCT_BUNDLE_IDENTIFIER = com.example.Ben10Omnitrix;
+				PRODUCT_BUNDLE_IDENTIFIER = com.example.Ben10Omnitrix.watchkitapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
