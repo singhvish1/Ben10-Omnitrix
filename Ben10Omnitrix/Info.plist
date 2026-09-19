@@ -12,6 +12,8 @@
     <string>Ben10Omnitrix</string>
     <key>CFBundlePackageType</key>
     <string>APPL</string>
+    <key>WKCompanionAppBundleIdentifier</key>
+    <string>com.example.Ben10Omnitrix</string>
     <key>WKApplication</key>
     <true/>
 </dict>
