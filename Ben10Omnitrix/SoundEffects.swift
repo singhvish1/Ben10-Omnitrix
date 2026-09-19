@@ -8,8 +8,8 @@ final class SoundEffects {
 
     private init() {
         engine.attach(player)
-        engine.connect(player, to: engine.mainMixerNode, format: nil)
-        try? engine.start()
+        let outputFormat = engine.mainMixerNode.outputFormat(forBus: 0)
+        engine.connect(player, to: engine.mainMixerNode, format: outputFormat)
     }
 
     func playDialTick() {
@@ -25,21 +25,28 @@ final class SoundEffects {
     }
 
     private func playSweep(startFrequency: Float, endFrequency: Float, duration: Float, volume: Float) {
-        let format = AVAudioFormat(standardFormatWithSampleRate: 44_100, channels: 1)
-        let frameCount = AVAudioFrameCount(44_100 * duration)
-        guard let format, let buffer = AVAudioPCMBuffer(pcmFormat: format, frameCapacity: frameCount),
-              let samples = buffer.floatChannelData?[0] else { return }
+        let format = engine.mainMixerNode.outputFormat(forBus: 0)
+        let sampleRate = Float(format.sampleRate)
+        let channelCount = Int(format.channelCount)
+        let frameCount = AVAudioFrameCount(sampleRate * duration)
+        guard channelCount > 0,
+              sampleRate > 0,
+              let buffer = AVAudioPCMBuffer(pcmFormat: format, frameCapacity: frameCount),
+              let samples = buffer.floatChannelData else { return }
 
         buffer.frameLength = frameCount
         for frame in 0..<Int(frameCount) {
             let progress = Float(frame) / Float(frameCount)
             let frequency = startFrequency + ((endFrequency - startFrequency) * progress)
             let envelope = min(progress * 18, 1) * min((1 - progress) * 18, 1)
-            samples[frame] = sin(2 * .pi * frequency * Float(frame) / 44_100) * volume * envelope
+            let sample = sin(2 * .pi * frequency * Float(frame) / sampleRate) * volume * envelope
+            for channel in 0..<channelCount {
+                samples[channel][frame] = sample
+            }
         }
 
         if !engine.isRunning {
-            try? engine.start()
+            guard (try? engine.start()) != nil else { return }
         }
         player.stop()
         player.scheduleBuffer(buffer)
