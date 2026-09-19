@@ -33,20 +33,38 @@ struct ContentView: View {
 
     private var header: some View {
         HStack {
-            Label("OMNITRIX", systemImage: "antenna.radiowaves.left.and.right")
+            Text("OMNITRIX")
                 .font(.system(size: 11, weight: .black, design: .rounded))
-                .foregroundStyle(.white)
+                .tracking(2)
+                .foregroundStyle(Color.green)
             Spacer()
-            Circle()
-                .fill(isActivated ? Color.green : Color.yellow)
-                .frame(width: 7, height: 7)
-                .shadow(color: isActivated ? .green : .yellow, radius: 5)
+            HStack(spacing: 4) {
+                Circle()
+                    .fill(isActivated ? Color.green : Color.yellow)
+                    .frame(width: 6, height: 6)
+                Text(isActivated ? "ACTIVE" : "STANDBY")
+                    .font(.system(size: 8, weight: .bold, design: .rounded))
+                    .foregroundStyle(.white.opacity(0.6))
+            }
         }
     }
 
     private var dial: some View {
         VStack(spacing: 5) {
             ZStack {
+                RoundedRectangle(cornerRadius: 24)
+                    .fill(Color(white: 0.04))
+                    .overlay(RoundedRectangle(cornerRadius: 24).stroke(Color(white: 0.2), lineWidth: 2))
+                    .frame(width: 176, height: 126)
+                    .shadow(color: .black, radius: 8, y: 5)
+                Capsule()
+                    .fill(Color(white: 0.12))
+                    .frame(width: 6, height: 22)
+                    .offset(x: -88)
+                Capsule()
+                    .fill(Color(white: 0.12))
+                    .frame(width: 6, height: 22)
+                    .offset(x: 88)
                 Circle()
                     .fill(Color(white: 0.08))
                     .overlay(Circle().stroke(Color(white: 0.22), lineWidth: 2))
@@ -74,7 +92,7 @@ struct ContentView: View {
                 Circle()
                     .fill(
                         RadialGradient(
-                            colors: [selectedAlien.accent.opacity(0.28), Color(white: 0.08), .black],
+                            colors: [selectedAlien.accent.opacity(0.38), Color.green.opacity(0.12), .black],
                             center: .center,
                             startRadius: 2,
                             endRadius: 66
@@ -88,10 +106,12 @@ struct ContentView: View {
                             .padding(5)
                     }
                 VStack(spacing: 3) {
-                    Image(systemName: selectedAlien.symbol)
-                        .font(.system(size: 29, weight: .bold))
-                        .foregroundStyle(selectedAlien.accent)
-                        .symbolEffect(.bounce, value: selectedIndex)
+                    OmnitrixEmblem()
+                        .fill(selectedAlien.accent)
+                        .frame(width: 36, height: 36)
+                        .shadow(color: selectedAlien.accent, radius: 5)
+                        .scaleEffect(isActivated ? 1.12 : 1)
+                        .animation(.easeInOut(duration: 0.2), value: isActivated)
                     Text(selectedAlien.name.uppercased())
                         .font(.system(size: 12, weight: .black, design: .rounded))
                         .minimumScaleFactor(0.7)
@@ -157,6 +177,24 @@ struct ContentView: View {
         }
         .buttonStyle(.borderedProminent)
         .tint(isActivated ? .gray : .green)
+    }
+}
+
+private struct OmnitrixEmblem: Shape {
+    func path(in rect: CGRect) -> Path {
+        let center = CGPoint(x: rect.midX, y: rect.midY)
+        let width = rect.width * 0.62
+        let height = rect.height * 0.9
+        var path = Path()
+        path.move(to: CGPoint(x: center.x - width * 0.42, y: center.y - height * 0.5))
+        path.addLine(to: CGPoint(x: center.x + width * 0.42, y: center.y - height * 0.5))
+        path.addLine(to: CGPoint(x: center.x + width * 0.16, y: center.y - height * 0.08))
+        path.addLine(to: CGPoint(x: center.x + width * 0.42, y: center.y + height * 0.5))
+        path.addLine(to: CGPoint(x: center.x - width * 0.42, y: center.y + height * 0.5))
+        path.addLine(to: CGPoint(x: center.x - width * 0.16, y: center.y + height * 0.08))
+        path.addLine(to: CGPoint(x: center.x - width * 0.42, y: center.y - height * 0.5))
+        path.closeSubpath()
+        return path
     }
 }
 
