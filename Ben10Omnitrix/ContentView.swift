@@ -48,8 +48,17 @@ struct ContentView: View {
         VStack(spacing: 5) {
             ZStack {
                 Circle()
-                    .stroke(Color.white.opacity(0.12), lineWidth: 2)
-                    .frame(width: 154, height: 154)
+                    .fill(Color(white: 0.08))
+                    .overlay(Circle().stroke(Color(white: 0.22), lineWidth: 2))
+                    .frame(width: 164, height: 164)
+                    .shadow(color: .black, radius: 5, y: 3)
+                ForEach(0..<12, id: \.self) { marker in
+                    Capsule()
+                        .fill(marker.isMultiple(of: 3) ? Color.green : Color.white.opacity(0.25))
+                        .frame(width: marker.isMultiple(of: 3) ? 3 : 2, height: marker.isMultiple(of: 3) ? 10 : 6)
+                        .offset(y: -75)
+                        .rotationEffect(.degrees(Double(marker) * 30))
+                }
                 Circle()
                     .trim(from: 0, to: 0.78)
                     .stroke(
@@ -73,6 +82,11 @@ struct ContentView: View {
                     )
                     .overlay(Circle().stroke(.white.opacity(0.18), lineWidth: 1))
                     .frame(width: 116, height: 116)
+                    .overlay {
+                        Circle()
+                            .stroke(Color.green.opacity(0.65), lineWidth: 3)
+                            .padding(5)
+                    }
                 VStack(spacing: 3) {
                     Image(systemName: selectedAlien.symbol)
                         .font(.system(size: 29, weight: .bold))
@@ -99,8 +113,10 @@ struct ContentView: View {
                 .onEnded { value in
                     if value.translation.width < 0 {
                         selectedIndex = (selectedIndex + 1) % Alien.roster.count
+                        SoundEffects.shared.playDialTick()
                     } else if value.translation.width > 0 {
                         selectedIndex = (selectedIndex - 1 + Alien.roster.count) % Alien.roster.count
+                        SoundEffects.shared.playDialTick()
                     }
                 }
         )
@@ -125,6 +141,11 @@ struct ContentView: View {
         Button {
             isActivated.toggle()
             WKInterfaceDevice.current().play(isActivated ? .success : .click)
+            if isActivated {
+                SoundEffects.shared.playActivation()
+            } else {
+                SoundEffects.shared.playReset()
+            }
         } label: {
             HStack(spacing: 6) {
                 Image(systemName: isActivated ? "arrow.counterclockwise" : "power")

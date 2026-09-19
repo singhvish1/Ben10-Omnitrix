@@ -10,6 +10,7 @@
 		100000000000000000000001 /* Ben10OmnitrixApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 100000000000000000000011 /* Ben10OmnitrixApp.swift */; };
 		100000000000000000000002 /* Alien.swift in Sources */ = {isa = PBXBuildFile; fileRef = 100000000000000000000012 /* Alien.swift */; };
 		100000000000000000000003 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 100000000000000000000013 /* ContentView.swift */; };
+		100000000000000000000004 /* SoundEffects.swift in Sources */ = {isa = PBXBuildFile; fileRef = 100000000000000000000015 /* SoundEffects.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -18,6 +19,7 @@
 		100000000000000000000012 /* Alien.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alien.swift; sourceTree = "<group>"; };
 		100000000000000000000013 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		100000000000000000000014 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		100000000000000000000015 /* SoundEffects.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundEffects.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -40,6 +42,7 @@
 				100000000000000000000012 /* Alien.swift */,
 				100000000000000000000013 /* ContentView.swift */,
 				100000000000000000000014 /* Info.plist */,
+				100000000000000000000015 /* SoundEffects.swift */,
 			);
 			path = Ben10Omnitrix;
 			sourceTree = "<group>";
@@ -105,6 +108,7 @@
 				100000000000000000000001 /* Ben10OmnitrixApp.swift in Sources */,
 				100000000000000000000002 /* Alien.swift in Sources */,
 				100000000000000000000003 /* ContentView.swift in Sources */,
+				100000000000000000000004 /* SoundEffects.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
